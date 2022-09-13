@@ -1,0 +1,12 @@
+region                        = "us-east-2"
+networking_vpc_cidr_block     = "10.0.0.0/16"
+networking_subnet_cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+app_instance_type             = "m5a.xlarge"
+app_volume_size               = "200" # in GB
+app_volume_type               = "gp2"
+app_key_name                  = "MorpheusAccess"
+app_os_flavor                 = "ubuntu"
+db_cluster_id                 = "morpheus-dev"
+db_master_username            = "admin"
+lb_name                       = "morpheus-dev"
+internal_only                 = true
