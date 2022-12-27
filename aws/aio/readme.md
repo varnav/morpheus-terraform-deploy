@@ -23,7 +23,7 @@ configuration is needed, with the exception of credentials for Terraform to conn
 `cd ./morpheus-terraform-deploy/aws/aio`
 4. The deployment comes with an `example.tfvars` file, which has example values for the required variables.  No modifications are required but `example.tfvars` can be edited to modify the deployment, if needed.  During the deployment, you will be prompted for passwords for the various services
 5. Run `terraform apply` from the current directory, with the argument for the `example.tfvars` file.  Review the planned changes and confirm to make the changes:  
-`terraform apply -var-file"example.tfvars"`
+`terraform apply -var-file="example.tfvars"`
 6. The services can take some time to provision.  Once the deployment is complete, details will be provided via [outputs](https://www.terraform.io/language/values/outputs), to help configure Morpheus for these services
    1. **Note that the EC2 instance access key that is generated will show as `app_vm_key_pair: <sensitive>` in the output, to ensure the values are not exposed inadvertently.**  When needing to connect to the EC2 instance(s), use the following command to retrieve the private key and create a `.pem` file as needed:  
    `terraform output -raw app_vm_key_pair`
