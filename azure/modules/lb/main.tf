@@ -70,7 +70,7 @@ resource "tls_cert_request" "server" {
 resource "tls_locally_signed_cert" "server" {
   cert_request_pem   = tls_cert_request.server.cert_request_pem
   ca_private_key_pem = tls_private_key.ca.private_key_pem
-  ca_cert_pem        = tls_self_signed_cert.ca.cert_pem 
+  ca_cert_pem        = tls_self_signed_cert.ca.cert_pem
 
   validity_period_hours = 8760
 
@@ -81,27 +81,10 @@ resource "tls_locally_signed_cert" "server" {
   ]
 }
 
-# resource "tls_self_signed_cert" "morpheus" {
-#   private_key_pem = tls_private_key.server.private_key_pem
-
-#   subject {
-#     common_name  = local.server_cert_cn
-#     organization = "Morpheus Examples, LLC"
-#   }
-
-#   validity_period_hours = 8760
-
-#   allowed_uses = [
-#     "key_encipherment",
-#     "digital_signature",
-#     "server_auth"
-#   ]
-# }
-
 resource "pkcs12_from_pem" "pfx" {
-  password = "mypassword"
-  cert_pem = tls_locally_signed_cert.server.cert_pem
-  private_key_pem  = tls_private_key.server.private_key_pem
+  password        = "mypassword"
+  cert_pem        = tls_locally_signed_cert.server.cert_pem
+  private_key_pem = tls_private_key.server.private_key_pem
 }
 
 resource "azurerm_application_gateway" "network" {
@@ -136,7 +119,7 @@ resource "azurerm_application_gateway" "network" {
 
   trusted_root_certificate {
     name = local.ca_cert_cn
-    data = tls_self_signed_cert.ca.cert_pem 
+    data = tls_self_signed_cert.ca.cert_pem
   }
 
   backend_http_settings {
@@ -152,12 +135,12 @@ resource "azurerm_application_gateway" "network" {
   }
 
   probe {
-    name = local.probe_name
-    interval = 30
-    host = local.server_cert_cn
-    path = "/ping"
-    protocol = "Https"
-    timeout = 30
+    name                = local.probe_name
+    interval            = 30
+    host                = local.server_cert_cn
+    path                = "/ping"
+    protocol            = "Https"
+    timeout             = 30
     unhealthy_threshold = 3
   }
 
@@ -179,17 +162,17 @@ resource "azurerm_application_gateway" "network" {
   }
 
   ssl_certificate {
-    name = local.ssl_certificate_name
-    data = pkcs12_from_pem.pfx.result
+    name     = local.ssl_certificate_name
+    data     = pkcs12_from_pem.pfx.result
     password = "mypassword"
   }
 
-  ssl_profile{
+  ssl_profile {
     name = local.ssl_profile_name
     ssl_policy {
-    policy_type = "Predefined"
-    policy_name = "AppGwSslPolicy20170401S"
-  }
+      policy_type = "Predefined"
+      policy_name = "AppGwSslPolicy20170401S"
+    }
   }
 
   ssl_policy {
@@ -199,7 +182,7 @@ resource "azurerm_application_gateway" "network" {
 }
 
 resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "pool" {
-  for_each =  toset(var.zones)
+  for_each                = toset(var.zones)
   network_interface_id    = lookup(var.app_network_interfaces["${each.value}"], "id")
   ip_configuration_name   = lookup(var.app_network_interfaces["${each.value}"], "ip_configuration")[0].name
   backend_address_pool_id = tolist(azurerm_application_gateway.network.backend_address_pool).0.id

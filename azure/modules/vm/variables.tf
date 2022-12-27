@@ -30,13 +30,13 @@ variable "network_security_group_id" {
 }
 
 variable "admin_username" {
-  type        = string
+  type = string
 }
 
 variable "zones" {
-  type        = list
+  type = list(any)
 }
 
 variable "disk_size_gb" {
-  type        = string
+  type = string
 }

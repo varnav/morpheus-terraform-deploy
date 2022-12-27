@@ -13,5 +13,5 @@ variable "app_network_interfaces" {
 }
 
 variable "zones" {
-  type        = list
+  type = list(any)
 }

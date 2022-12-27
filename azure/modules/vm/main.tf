@@ -4,8 +4,8 @@ resource "azurerm_public_ip" "ip" {
   resource_group_name = var.resource_group_name
   location            = var.location
   allocation_method   = "Static"
-  zones = var.zones
-  sku = "Standard"
+  zones               = var.zones
+  sku                 = "Standard"
 }
 
 resource "azurerm_network_interface" "int" {
@@ -53,13 +53,13 @@ resource "azurerm_linux_virtual_machine" "vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
-    disk_size_gb = var.disk_size_gb
+    disk_size_gb         = var.disk_size_gb
   }
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-focal"  # 0001-com-ubuntu-server-jammy == 22.04
-    sku       = "20_04-lts-gen2" # 22_04-lts-gen2
+    offer     = "0001-com-ubuntu-server-focal" # 0001-com-ubuntu-server-jammy == 22.04
+    sku       = "20_04-lts-gen2"               # 22_04-lts-gen2
     version   = "latest"
   }
   zone = each.value

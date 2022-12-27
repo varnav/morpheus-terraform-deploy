@@ -12,6 +12,6 @@ variable "virtual_network_id" {
   type = string
 }
 
-variable "storage_account_name" {
-  type        = string
+variable "storage_account_name_prefix" {
+  type = string
 }

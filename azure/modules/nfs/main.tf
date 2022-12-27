@@ -1,18 +1,24 @@
+resource "random_string" "random" {
+  length  = 8
+  special = false
+  upper   = false
+}
+
 resource "azurerm_storage_account" "nfs" {
-  name                     = var.storage_account_name
-  resource_group_name      = var.resource_group_name
-  location                 = var.location
-  account_tier             = "Premium"
-  account_replication_type = "ZRS"
-  account_kind             = "FileStorage"
-  allow_nested_items_to_be_public  = false
+  name                            = "${var.storage_account_name_prefix}${random_string.random.result}"
+  resource_group_name             = var.resource_group_name
+  location                        = var.location
+  account_tier                    = "Premium"
+  account_replication_type        = "ZRS"
+  account_kind                    = "FileStorage"
+  allow_nested_items_to_be_public = false
   # public_network_access_enabled must be true if using Terraform from outside the vNet
   # If public_network_access_enabled is not true, an authorization error will be encountered
   public_network_access_enabled = true
   # enable_https_traffic_only must be false when using NFS file shares ('Secure transfer required' in the portal)
   enable_https_traffic_only = false
   # shared_access_key_enabled must be true when using NFS file shares ('Allow storage account key access' in the portal)
-  shared_access_key_enabled  = true
+  shared_access_key_enabled = true
 }
 
 resource "azurerm_storage_share" "nfs" {
@@ -29,8 +35,8 @@ resource "azurerm_private_dns_zone" "dns" {
 
 resource "azurerm_private_endpoint" "endpoint" {
   name                = "morpheus-endpoint"
-  resource_group_name      = var.resource_group_name
-  location                 = var.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
   subnet_id           = var.nfs_subnet_id
   private_dns_zone_group {
     name = "default"
@@ -39,7 +45,7 @@ resource "azurerm_private_endpoint" "endpoint" {
     ]
   }
   private_service_connection {
-    name = "morpheus-privateservice"
+    name                 = "morpheus-privateservice"
     is_manual_connection = false
     subresource_names = [
       "file"
@@ -53,7 +59,7 @@ resource "azurerm_private_dns_a_record" "morpheus" {
   zone_name           = azurerm_private_dns_zone.dns.name
   resource_group_name = var.resource_group_name
   ttl                 = 10
-  records             = [
+  records = [
     azurerm_private_endpoint.endpoint.private_service_connection[0].private_ip_address
   ]
 }

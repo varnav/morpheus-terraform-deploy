@@ -10,9 +10,6 @@ terraform {
 
 provider "azurerm" {
   features {
-    # managed_disk {
-    #   expand_without_downtime = true
-    # }
     virtual_machine {
       delete_os_disk_on_deletion     = true
       graceful_shutdown              = false

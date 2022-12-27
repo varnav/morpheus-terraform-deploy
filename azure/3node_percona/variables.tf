@@ -17,9 +17,10 @@ variable "db_volume_size" {
 }
 
 variable "resource_group_name" {
-  type        = string
+  type = string
 }
 
-variable "storage_account_name" {
-  type        = string
+# storage_account_name must be unique globally
+variable "storage_account_name_prefix" {
+  type = string
 }
