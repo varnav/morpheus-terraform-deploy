@@ -32,3 +32,12 @@ and only allowing communication directly between services.  Additional ports, su
    1. **Note that the Virtual Machine access key that is generated will show as `vm_key_pair: <sensitive>` in the output, to ensure the values are not exposed inadvertently.**  When needing to connect to the Virtual Machine(s), use the following command to retrieve the private key and create a `.pem` file as needed:  
    `terraform output -raw vm_key_pair`
 2. At this point, all infrastructure should be created to support the installation of Morpheus.  The services will need to be configured appropriately before starting the installation of the Morpheus application.  Please see the [3-Node Highly Available (HA) Install](https://docs.morpheusdata.com/en/latest/getting_started/installation/distributed/3node/3node.html) documentation for additional details
+
+## Additional Links
+
+- Creating self-signed CA backed "locally" signed certificates: \
+https://learn.microsoft.com/en-us/azure/application-gateway/self-signed-certificates
+- TLS Provider: \
+https://registry.terraform.io/providers/hashicorp/tls/latest/docs
+- pkcs12 Provider (conversion to PFX): \
+https://registry.terraform.io/providers/chilicat/pkcs12/latest/docs/resources/from_pem
