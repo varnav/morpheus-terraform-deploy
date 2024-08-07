@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This project will create the infrastructure for a [3-Node Highly Available (HA) Install](https://docs.morpheusdata.com/en/latest/getting_started/installation/distributed/3node/3node.html) of Morpheus using GCP MYSQL for an external database and GCP Filestore for NFS.  Additionally, Morpheus dependant services are expected to be embedded on the application nodes.  Morpheus will setup these embedded services automatically when installing the application following the documentation.
+This project will create the infrastructure for a [3-Node Highly Available (HA) Install](https://docs.morpheusdata.com/en/latest/getting_started/installation/3_node_ha/3_node_ha.html) of Morpheus using GCP MYSQL for an external database and GCP Filestore for NFS.  Additionally, Morpheus dependant services are expected to be embedded on the application nodes.  Morpheus will setup these embedded services automatically when installing the application following the documentation.
 The deployment will create all underlying networking and services automatically (this includes a router if set to true), meaning a brand new GCP account could be used and no pre-existing configuration is needed, with the exception of credentials for Terraform to connect.  
 HTTPS is allowed from external if the load balancer. 
 
