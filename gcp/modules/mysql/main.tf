@@ -1,13 +1,13 @@
 resource "google_sql_database" "main" {
   name     = "${var.naming_prefix}-mysql"
   instance = google_sql_database_instance.instance.name
-  charset = "utf8"
-  collation = "utf8_general_ci"
+  charset = "utf8mb4"
+  collation = "utf8mb4_general_ci"
 }
 
 resource "google_sql_database_instance" "instance" {
 name             = "${var.naming_prefix}-db"
-database_version = "MYSQL_5_7"
+database_version = "MYSQL_8_0"
 deletion_protection=false
 settings {
 tier             = "db-f1-micro"
